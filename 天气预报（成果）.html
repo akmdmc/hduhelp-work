@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气预报</title>
+    <style>
+        #earth {
+            position: absolute;
+        }
+        
+        body {
+            background-color: rgb(174, 192, 243);
+        }
+        
+        #bigbox {
+            background-image: url(晴天.png);
+            position: absolute;
+            width: 790px;
+            height: 600px;
+            border-radius: 25px 25px 25px 25px;
+            box-shadow: 0 0 35px -10px rgb(8, 5, 221);
+        }
+        
+        #city {
+            text-align: center;
+            font-size: 60px;
+        }
+        
+        #week {
+            position: relative;
+            top: -35px;
+            left: 100px;
+            text-indent: 350px;
+            font-size: 30px;
+        }
+        
+        #time {
+            position: relative;
+            top: -30px;
+            left: 470px;
+            font-size: 25px;
+        }
+        
+        #date1 {
+            position: relative;
+            top: -35px;
+            left: 450px;
+            font-size: 25px;
+        }
+        
+        #advice {
+            position: relative;
+            top: 100px;
+            left: 100px;
+            font-size: 25px;
+        }
+        
+        #otherBigbox {
+            position: relative;
+            left: 800px;
+            width: 720px;
+            height: 600px;
+            border-radius: 25px 25px 25px 25px;
+            background-color: rgb(233, 224, 145);
+            box-shadow: 0 0 35px -10px rgba(62, 70, 182, 0.425);
+        }
+        
+        #forecast {
+            text-decoration: none;
+        }
+        
+        #weather {
+            position: relative;
+            top: 30px;
+            left: 100px;
+            font-size: 40px;
+        }
+        
+        #temperature {
+            position: relative;
+            top: 30px;
+            left: 150px;
+            font-size: 30px;
+        }
+        
+        #windDirection {
+            position: relative;
+            top: 80px;
+            left: 500px;
+            font-size: 30px;
+        }
+        
+        #windPower {
+            position: relative;
+            top: 80px;
+            left: 500px;
+            font-size: 30px;
+        }
+        
+        #humidity {
+            position: relative;
+            top: 80px;
+            left: 500px;
+            font-size: 30px;
+        }
+        
+        #forecast td {
+            position: relative;
+            width: 130px;
+            height: 50px;
+            display: inline-block;
+            top: 120px;
+            left: 100px;
+            font-size: 40px;
+        }
+        
+        #text {
+            color: #999;
+            position: relative;
+            top: 190px;
+            left: 100px;
+            font-size: 40px;
+        }
+        
+        #but {
+            position: relative;
+            top: 200px;
+            left: 160px;
+            font-size: 20px;
+            width: 300px;
+            height: 40px;
+            background-color: rgb(166, 187, 255);
+            border-radius: 25px 25px 25px 25px;
+        }
+        
+        #but:hover {
+            transform: scale(1.1);
+        }
+        
+        #advice div {
+            display: inline-block;
+            background-color: rgb(186, 193, 250);
+            width: 150px;
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+            border-radius: 25px 25px 25px 25px;
+            border: black solid 1px;
+        }
+        
+        #adviceTitle {
+            position: relative;
+            top: 100px;
+            left: 100px;
+            font-size: 25px;
+        }
+        
+        #adviceTitle div {
+            display: inline-block;
+            text-align: center;
+            line-height: 150px;
+            width: 150px;
+            height: 100px;
+        }
+        
+        #echarts {
+            position: relative;
+            top: 100px;
+            left: 800px;
+            width: 500px;
+            height: 250px;
+        }
+        
+        #reportTime {
+            position: relative;
+            top: 210px;
+            left: 480px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="earth">
+
+        <div id="bigbox">
+            <div>
+                <h2 id="city"></h2>
+            </div>
+            <div id="week"></div>
+            <div id="time"></div>
+            <div id="date1"></div>
+            <div id="adviceTitle">
+                <div>🕴穿衣</div>
+                <div>🚄出游</div>
+                <div>🚗洗车</div>
+                <div>⚡凶兆</div>
+            </div>
+            <div id="advice">
+                <div id="clothesAdvice">穿衣
+                </div>
+                <div id="travelAdvice">出游</div>
+                <div id="washCarAdvice">洗车</div>
+                <div id="luck">忌：开学</div>
+            </div>
+
+        </div>
+        <div id="otherBigbox">
+            <div id="weather"></div>
+            <div id="temperature"></div>
+            <div id="windDirection"></div>
+            <div id="windPower"></div>
+            <div id="humidity"></div>
+            <div id="forecast">
+                <table>
+                    <tr>
+                        <td>
+                            <span id="day1week">星期一</span>
+                            <span id="day1weather">小雨</span>
+
+                        </td>
+                        <td>
+                            <span id="day2week">星期一</span>
+                            <span id="day2weather">小雨</span>
+
+                        </td>
+                        <td>
+                            <span id="day3week">星期一</span>
+                            <span id="day3weather">小雨</span>
+
+
+                            <td>
+                                <span id="day4week">星期一</span>
+                                <span id="day4weather">小雨</span>
+
+                            </td>
+                    </tr>
+                </table>
+                <div>
+                    <input type="text" value="位置" id="text">
+                    <input type="button" id="but" value="查询">
+                    <div id="reportTime">13</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="echarts">
+
+    </div>
+    <script src="echarts.min.js"></script>
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=0e0515e5982fbfb4bb949348fe907b16"></script>
+    <script type="text/javascript">
+        let nowtime = new Date;
+        let hour = nowtime.getHours();
+        hour = hour < 10 ? "0" + hour : hour;
+        let minute = nowtime.getMinutes();
+        minute = minute < 10 ? "0" + minute : minute;
+        let month = nowtime.getMonth() + 1;
+        let arr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        document.getElementById('week').innerText = arr[nowtime.getDay()];
+        document.getElementById('time').innerText = hour + ":" + minute;
+        document.getElementById('date1').innerText = nowtime.getUTCFullYear() + "/" + month + "/" + nowtime.getDate();
+
+        document.getElementById('text').onfocus = function() {
+            if (document.getElementById('text').value == "位置") {
+                document.getElementById('text').value = "";
+            }
+            this.style.color = '#333';
+        }
+        document.getElementById('text').onblur = function() {
+                if (document.getElementById('text').value === '') {
+                    document.getElementById('text').value = "位置"
+
+                }
+                this.style.color = "#999";
+
+            }
+            // 今天天气
+        function handleNowWeatherData(data) {
+            console.log(data);
+            document.getElementById("city").innerText = data.city;
+            if (data.weather == "晴") {
+                document.getElementById('weather').innerText = "☀" + data.weather;
+            } else if (data.weather == "小雨" || data.weather == "中雨" || data.weather == "大雨" || data.weather == "暴雨" || data.weather == "阵雨") {
+                document.getElementById('weather').innerText = "🌧" + data.weather;
+                document.getElementById('bigbox').style.backgroundImage = "下雨.gif";
+            } else {
+                document.getElementById('weather').innerText = "⛅" + data.weather;
+            }
+
+            document.getElementById('temperature').innerText = data.temperature + "℃";
+            document.getElementById('windDirection').innerText = "风向：" + data.windDirection;
+            document.getElementById('windPower').innerText = "风力：" + data.windPower;
+            document.getElementById('humidity').innerText = "空气湿度：" + data.humidity;
+
+            if (data.temperature < 0) {
+                document.getElementById('clothesAdvice').innerText = "🧣羽绒服类";
+            } else if (data.temperature < 10) {
+                document.getElementById('clothesAdvice').innerText = "🧥大衣类";
+            } else if (data.temperature < 15) {
+                document.getElementById('clothesAdvice').innerText = "🥼风衣卫衣";
+            } else if (data.temperature < 20) {
+                document.getElementById('clothesAdvice').innerText = "👗裙子类";
+            } else if (data.temperature < 40) {
+                document.getElementById('clothesAdvice').innerText = "👕短袖类";
+            } else {
+                Cdocument.getElementById('clothesAdvice').innerText = "👙比基尼类";
+            }
+            if (data.windPower == "<=3" && data.temperature < 34 && data.temperature > 10) {
+                document.getElementById('travelAdvice').innerText = "适宜";
+            } else {
+                document.getElementById('travelAdvice').innerText = "不适宜";
+            }
+            if (nowtime.getDay() == 0 || nowtime.getDay() == 6) {
+                document.getElementById('luck').innerText = "宜：做作业"
+            } else {
+                document.getElementById('luck').innerText = "忌：上课睡觉"
+            }
+            document.getElementById("reportTime").innerText = "更新时间：" + data.reportTime;
+        }
+
+        function weatherLive(city) {
+
+            AMap.plugin('AMap.Weather', function() {
+
+                var weather = new AMap.Weather();
+
+
+                weather.getLive(city, function(err, data) {
+                    handleNowWeatherData(data)
+                });
+
+
+            });
+        }
+
+        // 近4天天气预测
+        function handleWeatherData(data) {
+            let dt1, dt2, dt3, dt4;
+            dt1 = data.forecasts[0].dayTemp;
+            dt2 = data.forecasts[1].dayTemp;
+            dt3 = data.forecasts[2].dayTemp;
+            dt4 = data.forecasts[3].dayTemp;
+            let arr1 = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天', ]
+            document.getElementById('day1week').innerText = arr[data.forecasts[0].week - 1];
+            document.getElementById('day2week').innerText = arr[data.forecasts[1].week - 1];
+            document.getElementById('day3week').innerText = arr[data.forecasts[2].week - 1];
+            document.getElementById('day4week').innerText = arr[data.forecasts[3].week - 1];
+            document.getElementById('day1weather').innerText = data.forecasts[0].dayWeather;
+            document.getElementById('day2weather').innerText = data.forecasts[1].dayWeather;
+            document.getElementById('day3weather').innerText = data.forecasts[2].dayWeather;
+            document.getElementById('day4weather').innerText = data.forecasts[3].dayWeather;
+            let mycharts = echarts.init(document.getElementById("echarts"), );
+            // 指定配置项和数据
+            let option = {
+                title: {
+                    text: '白天温度'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['1']
+                },
+                xAxis: {
+                    data: [document.getElementById('day1week').innerText, document.getElementById('day2week').innerText, document.getElementById('day3week').innerText, document.getElementById('day4week').innerText]
+                },
+                yAxis: {},
+                series: [{
+                    type: 'line',
+                    data: [dt1, dt2, dt3, dt4]
+                }]
+            };
+            // 将配置项和数 据（option） 设置给 实例对象（mycharts）
+            mycharts.setOption(option);
+            console.log(data);
+            if (data.forecasts[0].weather == "晴") {
+                document.getElementById('washCarAdvice').innerText = "适宜";
+            } else {
+                document.getElementById('washCarAdvice').innerText = "不适宜";
+            }
+
+        }
+
+        function weatherForecast(city) {
+
+            AMap.plugin('AMap.Weather', function() {
+
+                var weather = new AMap.Weather();
+
+
+                weather.getForecast(city, function(err, data) {
+                    handleWeatherData(data)
+                });
+            });
+        }
+
+        weatherForecast('北京');
+        weatherLive('北京');
+
+        let but = document.getElementById("but");
+        let k;
+        but.onclick = function() {
+            let t = document.getElementById('text');
+            k = t.value;
+            weatherLive(k);
+            weatherForecast(k);
+        }
+    </script>
+
+</body>
+
+</html>
